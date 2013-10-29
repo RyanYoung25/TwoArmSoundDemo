@@ -17,8 +17,8 @@ if __name__ == '__main__':
     audioInput.setformat(alsaaudio.PCM_FORMAT_S16_LE)
     audioInput.setperiodsize(160)
     #Initialize ros node and get a publisher from it
-    #rospy.init_node("Noise_listener")
-    #pub = rospy.Publisher("Maestro/Control", PythonMessage)
+    rospy.init_node("Noise_listener")
+    pub = rospy.Publisher("Maestro/Control", PythonMessage)
     try:
         #Start an infite loop that gets and analyzes audio data
         while True:
@@ -26,8 +26,28 @@ if __name__ == '__main__':
             if l:
                 lchan = audioop.tomono(data, 2, 1, 0)
                 rchan = audioop.tomono(data, 2, 0, 1)
-                print "L: " + str(audioop.max(lchan, 2))
-                print "R: " + str(audioop.max(rchan, 2))
+                lmax = audioop.max(lchan, 2)
+                rmax = audioop.max(rchan, 2)
+                rposition = 0
+                lposition = 0
+                #Start the threshold checks
+                # check rmax vs two thresholds 
+                if rmax > 500: 
+                    rposition =(-3.14 * rmax/1000.0)
+                    if(rposition < -3.14):
+                        rposition = -3.14
+                elif rmax < 70:
+                    rposition = 0
+
+                if lmax > 500: 
+                    lposition =(-3.14 * lmax/1000.0)
+                    if(lposition < -3.14):
+                        lposition = -3.14
+                elif lmax < 70:
+                    lposition = 0
+
+                pub.publish("RSP LSP", "position position", str(rposition) + " " + str(lposition), "")                    
+
                 time.sleep(.001) #audio refresh rate
     except KeyboardInterrupt :
         sys.exit() #TODO make it actually exit
