@@ -21,6 +21,7 @@ if __name__ == '__main__':
     pub = rospy.Publisher("Maestro/Control", PythonMessage)
     try:
         #Start an infite loop that gets and analyzes audio data
+        count = 0
         while True:
             l, data = audioInput.read()
             if l:
@@ -45,8 +46,11 @@ if __name__ == '__main__':
                         lposition = -3.14
                 elif lmax < 70:
                     lposition = 0
+                if count == 20:
+                    pub.publish("RSP LSP", "position position", str(rposition) + " " + str(lposition), "")  
+                    count = 0
+                count = count + 1
 
-                pub.publish("RSP LSP", "position position", str(rposition) + " " + str(lposition), "")                    
 
                 time.sleep(.001) #audio refresh rate
     except KeyboardInterrupt :
