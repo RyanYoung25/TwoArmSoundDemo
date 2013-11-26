@@ -19,6 +19,9 @@ if __name__ == '__main__':
     #Initialize ros node and get a publisher from it
     rospy.init_node("Noise_listener")
     pub = rospy.Publisher("Maestro/Control", PythonMessage)
+    print "Turning Interpolation On"
+    time.sleep(.5);
+    pub.publish("", "SetMode", "Interpolation", "true")
     try:
         #Start an infite loop that gets and analyzes audio data
         count = 0
