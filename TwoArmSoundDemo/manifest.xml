@@ -1,0 +1,15 @@
+<package>
+  <description brief="TwoArmSoundDemo">
+
+     TwoArmSoundDemo
+
+  </description>
+  <author>John</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/TwoArmSoundDemo</url>
+  <depend package="maestro"/>
+
+</package>
+
+

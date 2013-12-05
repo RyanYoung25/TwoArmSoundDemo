@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import roslib; roslib.load_manifest('hubomsg')
+import roslib; roslib.load_manifest('TwoArmSoundDemo')
 import rospy
 import alsaaudio
 import sys
