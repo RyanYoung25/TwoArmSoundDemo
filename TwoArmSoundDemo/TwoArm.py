@@ -16,6 +16,8 @@ if __name__ == '__main__':
     audioInput.setrate(44100)
     audioInput.setformat(alsaaudio.PCM_FORMAT_S16_LE)
     audioInput.setperiodsize(160)
+    oldL = 1
+    oldR = 1
     #Initialize ros node and get a publisher from it
     rospy.init_node("Noise_listener")
     pub = rospy.Publisher("Maestro/Control", PythonMessage)
@@ -37,22 +39,22 @@ if __name__ == '__main__':
                 #Start the threshold checks
                 # check rmax vs two thresholds 
                 if rmax > 500: 
-                    rposition =(-3.14 * rmax/1000.0)
+                    rposition =float('%.3f'%(-3.14 * rmax/1000.0))
                     if(rposition < -3.14):
                         rposition = -3.14
                 elif rmax < 70:
                     rposition = 0
 
                 if lmax > 500: 
-                    lposition =(-3.14 * lmax/1000.0)
+                    lposition =float('%.3f'%(-3.14 * lmax/1000.0))
                     if(lposition < -3.14):
                         lposition = -3.14
                 elif lmax < 70:
                     lposition = 0
-                if count == 20:
+                if oldR != rposition or oldL != lposition:
                     pub.publish("RSP LSP", "position position", str(rposition) + " " + str(lposition), "")  
-                    count = 0
-                count = count + 1
+                oldR = rposition
+                oldL = lposition
 
 
                 time.sleep(.001) #audio refresh rate
