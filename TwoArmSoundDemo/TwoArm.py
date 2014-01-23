@@ -6,7 +6,9 @@ import alsaaudio
 import sys
 import time
 import audioop
-from hubomsg.msg import PythonMessage
+from hubomsg.msg import MaestroCommand
+
+ID_NUM = 4
 
 if __name__ == '__main__':
     #Initialize and set the properties of PCM object
@@ -20,10 +22,10 @@ if __name__ == '__main__':
     oldR = 1
     #Initialize ros node and get a publisher from it
     rospy.init_node("Noise_listener")
-    pub = rospy.Publisher("Maestro/Control", PythonMessage)
+    pub = rospy.Publisher("Maestro/Control", MaestroCommand)
     print "Turning Interpolation On"
     time.sleep(.5);
-    pub.publish("", "SetMode", "Interpolation", "true")
+    pub.publish("", "SetMode", "Interpolation", "true", ID_NUM)
     try:
         #Start an infite loop that gets and analyzes audio data
         count = 0
@@ -52,7 +54,7 @@ if __name__ == '__main__':
                 elif lmax < 70:
                     lposition = 0
                 if oldR != rposition or oldL != lposition:
-                    pub.publish("RSP LSP", "position position", str(rposition) + " " + str(lposition), "")  
+                    pub.publish("RSP LSP", "position position", str(rposition) + " " + str(lposition), "", ID_NUM)  
                 oldR = rposition
                 oldL = lposition
 
