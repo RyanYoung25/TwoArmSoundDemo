@@ -10,6 +10,10 @@ from hubomsg.msg import MaestroCommand
 
 ID_NUM = 4
 
+def exit():
+    #pub.publish("RSP LSP", "position position", str(rposition) + " " + str(lposition), "", ID_NUM)   
+    sys.exit()
+
 if __name__ == '__main__':
     #Initialize and set the properties of PCM object
     card = 'default'
@@ -22,6 +26,7 @@ if __name__ == '__main__':
     oldR = 1
     #Initialize ros node and get a publisher from it
     rospy.init_node("Noise_listener")
+    rospy.on_shutdown(exit)
     pub = rospy.Publisher("Maestro/Control", MaestroCommand)
     print "Turning Interpolation On"
     time.sleep(.5);
@@ -54,6 +59,8 @@ if __name__ == '__main__':
                 elif lmax < 70:
                     lposition = 0
                 if oldR != rposition or oldL != lposition:
+                    print lposition
+                    print rposition
                     pub.publish("RSP LSP", "position position", str(rposition) + " " + str(lposition), "", ID_NUM)  
                 oldR = rposition
                 oldL = lposition
