@@ -6,9 +6,17 @@ import alsaaudio
 import sys
 import time
 import audioop
-from hubomsg.msg import MaestroCommand
+from maestor.srv import *
 
 ID_NUM = 4
+
+def setProps(names, properties, values):
+    try:
+        rospy.wait_for_service('setProperties')
+        service = rospy.ServiceProxy('setProperties', setProperties)
+        service(names, properties, values)
+    except rospy.ServiceException, e:
+        print "Service call failed: %s"%e
 
 if __name__ == '__main__':
     #Initialize and set the properties of PCM object
@@ -21,11 +29,8 @@ if __name__ == '__main__':
     oldL = 1
     oldR = 1
     #Initialize ros node and get a publisher from it
-    rospy.init_node("Noise_listener")
-    pub = rospy.Publisher("Maestro/Control", MaestroCommand)
-    print "Turning Interpolation On"
-    time.sleep(.5);
-    pub.publish("", "SetMode", "Interpolation", "true", ID_NUM)
+    #rospy.init_node("Noise_listener")
+    rospy.wait_for_service("setProperties")
     try:
         #Start an infite loop that gets and analyzes audio data
         count = 0
@@ -54,7 +59,7 @@ if __name__ == '__main__':
                 elif lmax < 70:
                     lposition = 0
                 if oldR != rposition or oldL != lposition:
-                    pub.publish("RSP LSP", "position position", str(rposition) + " " + str(lposition), "", ID_NUM)  
+                    setProps("RSP LSP", "position position", str(rposition) + " " + str(lposition))  
                 oldR = rposition
                 oldL = lposition
 

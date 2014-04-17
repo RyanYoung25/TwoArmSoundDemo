@@ -4,11 +4,11 @@
      TwoArmSoundDemo
 
   </description>
-  <author>John</author>
+  <author>Ryan</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/TwoArmSoundDemo</url>
-  <depend package="maestro"/>
+  <depend package="maestor"/>
 
 </package>
 
