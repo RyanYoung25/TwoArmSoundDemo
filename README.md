@@ -37,9 +37,7 @@ It can also be run like any other python script.
 *******************    STOP   **********************
 ****************************************************
 
-The demo currently only stops after a core dump which can be done in Unix with CTRL-\
-
-I plan to fix this soon. 
+The demo stops with ctrl-c, the sigint signal.  
 
 
 
