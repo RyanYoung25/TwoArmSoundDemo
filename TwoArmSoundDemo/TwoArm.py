@@ -55,7 +55,10 @@ if __name__ == '__main__':
                 rposition = 0
                 lposition = 0
                 #Start the threshold checks
-                # check rmax vs two thresholds 
+                # check rmax vs two thresholds
+                print "\033c" 
+                print "Right Max: " + str(rmax)
+                print "Left Max: " + str(lmax)
                 if rmax > 500: 
                     rposition =float('%.3f'%(MAX_POS * rmax/1000.0))
                     if(rposition < MAX_POS):
