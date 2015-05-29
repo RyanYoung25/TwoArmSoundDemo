@@ -64,6 +64,10 @@ if __name__ == '__main__':
                 #   where if we are above the threshold move up a little and below move down a little 
                 rposition = 0
                 lposition = 0
+                #Printing so the user can see what is happening
+                print "\033c" 
+                print "Right Max: " + str(rmax)
+                print "Left Max: " + str(lmax)
                 #Start the threshold checks
                 # check rmax vs two thresholds 
                 if rmax > 500: #If above the 500 unit threshold calculate a position 
